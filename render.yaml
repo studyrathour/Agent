@@ -2,10 +2,14 @@ services:
   - type: web
     name: jules-whatsapp-bot
     env: node
-    buildCommand: npm install
+    # 1. We added the npx command here to force Render to download Chrome
+    buildCommand: npm install && npx puppeteer browsers install chrome
     startCommand: npm start
     envVars:
       - key: JULES_API_KEY
         sync: false
       - key: WHATSAPP_NUMBER
         sync: false
+      # 2. We explicitly tell the server where to store the downloaded browser
+      - key: PUPPETEER_CACHE_DIR
+        value: /opt/render/project/src/.cache/puppeteer
